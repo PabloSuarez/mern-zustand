@@ -1,11 +1,15 @@
-import axios from "axios";
-import { API_LOGIN_URL } from "../constants";
+import { LOGIN_URL, PROFILE_URL } from "../constants";
+import axios from "../libs/axios";
 
 const loginRequest = async(email: string, password: string) => {
-  return axios.post(  API_LOGIN_URL, {
+  return await axios.post(  LOGIN_URL, {
     email,
     password
   });
 };
 
-export {loginRequest};
+const getProfile = async() => {
+  return await axios.get(PROFILE_URL);
+};
+
+export { getProfile, loginRequest };
