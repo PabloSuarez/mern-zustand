@@ -1,16 +1,17 @@
 FROM node:18.12-bullseye-slim
 
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-EXPOSE $VITE_FRONTEND_PORT
-
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# COPY entrypoint.sh /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
+# ENTRYPOINT ["/entrypoint.sh"]
 
 COPY . .
 
-ENTRYPOINT ["/entrypoint.sh"]
-
 RUN npm install
+
+EXPOSE $VITE_FRONTEND_PORT
 
 CMD ["npm", "run", "dev"]

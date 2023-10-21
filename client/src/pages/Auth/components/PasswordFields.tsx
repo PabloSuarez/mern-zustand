@@ -7,16 +7,16 @@ import {
   InputProps,
   InputRightElement,
   useDisclosure,
-  useMergeRefs,
 } from '@chakra-ui/react';
 import { forwardRef, useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 
-const PasswordFields = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+const PasswordFields = forwardRef<HTMLInputElement, InputProps>((props) => {
+  const { register } = useFormContext();
   const { isOpen, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const mergeRef = useMergeRefs(inputRef, ref);
   const onClickReveal = () => {
     onToggle();
     if (inputRef.current) {
@@ -37,9 +37,7 @@ const PasswordFields = forwardRef<HTMLInputElement, InputProps>((props, ref) => 
           />
         </InputRightElement>
         <Input
-          id="password"
-          ref={mergeRef}
-          name="password"
+          {...register('password', { required: true })}
           type={isOpen ? 'text' : 'password'}
           autoComplete="current-password"
           required

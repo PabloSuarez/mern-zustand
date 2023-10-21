@@ -19,6 +19,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    volumes:
+      - ./:/app
     ports:
       - '$SERVER_PORT:$SERVER_PORT'
     networks:

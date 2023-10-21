@@ -1,28 +1,15 @@
 version: '3'
 services:
-  # postgres:
-  #   image: postgres:14-alpine
-  #   build:
-  #     context: .
-  #   volumes:
-  #     - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-  #   environment:
-  #     POSTGRES_USER: main-panel_test
-  #     POSTGRES_PASSWORD: main-panel_test
-  #     POSTGRES_DB: main-panel_test
-  #   ports:
-  #     - '5432:5432' # Puerto de PostgreSQL fijo
-  #   # entrypoint: ['./init.sh', 'postgres']
-
   website:
     container_name: ADMINISTRATION_WEBSITE
     build:
       context: ./
       dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - /app/node_modules
     ports:
       - '$VITE_FRONTEND_PORT:$VITE_FRONTEND_PORT'
-    networks:
-      - mynetwork
 
 networks:
   mynetwork:

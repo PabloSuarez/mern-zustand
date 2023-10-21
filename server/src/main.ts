@@ -6,16 +6,17 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
-  const port = configService.get<number>('SERVER_PORT') || 8080;
-  const cors =
-    configService.get<number>('CORS_ORIGIN') || 'http://localhost:3000';
+  const port = configService.get<number>('SERVER_PORT');
+  const cors = configService.get<string>('CORS_ORIGIN');
 
-  console.log('cors and port', cors, port);
+  if (!cors || !port) {
+    throw new Error('CORS_ORIGIN and SERVER_PORT must be set on the .env file');
+  }
 
-  // app.enableCors({
-  //   // credentials: true,
-  //   origin: process.env.ORIGINS,
-  // });
+  app.enableCors({
+    credentials: true,
+    origin: cors,
+  });
 
   await app.listen(port, () => {
     console.log(`Application running at http://localhost:${port}`);

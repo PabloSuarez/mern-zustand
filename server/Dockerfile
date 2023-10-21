@@ -1,15 +1,15 @@
 FROM node:18.12-bullseye-slim
 
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-COPY ./package.json ./
-# COPY ./tsconfig.json ./
-# COPY ./dist ./dist
+EXPOSE $SERVER_PORT
 
-COPY . /app
+COPY ./package.json ./
 
 RUN npm install
 
-EXPOSE $SERVER_PORT
+COPY . /app
 
 CMD ["npm", "run", "start:dev"]
