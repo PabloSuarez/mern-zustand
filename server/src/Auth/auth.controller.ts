@@ -9,22 +9,33 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { User } from 'src/types';
 import AuthGuard from './auth.guard';
+import { LoginPayload, RegisterPayload } from './dto/types';
+import { IsPublic } from 'src/decorators/public.decorator';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService,
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('register')
-  register(@Body() loginDto: User) {
+  register(@Body() registerDto: RegisterPayload) {
+    return this.authService.register(registerDto.email, registerDto.password);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  login(@Body() loginDto: LoginPayload) {
     return this.authService.login(loginDto.email, loginDto.password);
   }
 
-  @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    return req.user;
+    const user = this.usersService.findOne(req.user.email);
+    return user;
   }
 }

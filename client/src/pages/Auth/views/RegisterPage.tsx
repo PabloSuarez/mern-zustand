@@ -33,10 +33,9 @@ const RegisterPage = () => {
   const onSubmit: SubmitHandler<LoginPayload> = async (payload) => {
     const { email, password } = payload;
     const registerResponse = await registerRequest(email, password);
-    console.log('registerResponse:', registerResponse);
-    // setToken(registerResponse.data.token);
-    // const profileRes = await getProfile();
-    // console.log('profileRes.data:', profileRes.data);
+    setToken(registerResponse.access_token);
+    const profileRes = await getProfile();
+    console.log('profileRes.data:', profileRes);
   };
 
   return (

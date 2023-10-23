@@ -30,7 +30,6 @@ const LoginPage = () => {
 
     setToken(resLogin.data.token);
     const profileRes = await getProfile();
-    console.log(profileRes.data);
   };
 
   return (
