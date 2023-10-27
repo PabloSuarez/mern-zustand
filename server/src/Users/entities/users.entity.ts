@@ -5,7 +5,9 @@ export class Users {
   @PrimaryGeneratedColumn('uuid')
   userId: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   email: string;
 
   @Column()
@@ -17,12 +19,18 @@ export class Users {
   @Column()
   password: string;
 
-  @Column()
+  @Column({
+    default: () => 'now()',
+  })
   createdAt: Date;
 
-  @Column()
+  @Column({
+    default: () => 'now()',
+  })
   updatedAt: Date;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   deletedAt: Date;
 }

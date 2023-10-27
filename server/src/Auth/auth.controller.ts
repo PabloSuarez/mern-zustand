@@ -6,13 +6,12 @@ import {
   HttpStatus,
   Post,
   Request,
-  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import AuthGuard from './auth.guard';
-import { LoginPayload, RegisterPayload } from './dto/types';
-import { IsPublic } from 'src/decorators/public.decorator';
 import { UsersService } from 'src/users/users.service';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { IsPublic } from 'src/decorators/public.decorator';
+import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -23,13 +22,15 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('register')
-  register(@Body() registerDto: RegisterPayload) {
-    return this.authService.register(registerDto.email, registerDto.password);
+  @IsPublic()
+  register(@Body() registerDto: CreateUserDto) {
+    return this.authService.register(registerDto);
   }
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  login(@Body() loginDto: LoginPayload) {
+  @IsPublic()
+  login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto.email, loginDto.password);
   }
 
